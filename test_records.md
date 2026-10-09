@@ -1,0 +1,123 @@
+# Community Complaint Categorization — 100 Test Records
+
+Synthetic sample data for the problem in `Guide.docx`. Each row is a distinct labeled complaint for training or testing a text classifier. The category is the target label; the routing suggestion follows the category. Dates use `YYYY-MM-DD`.
+
+| complaint_id | complaint_text | location | submission_channel | submission_date | complaint_category | routing_suggestion |
+|---|---|---|---|---|---|---|
+| CC-001 | Household garbage has not been collected for three days on Maple Street. | Zone A | Web form | 2026-01-01 | Waste and sanitation | Sanitation Office |
+| CC-002 | Overflowing public bin beside the market is attracting flies. | Zone B | Mobile app | 2026-01-02 | Waste and sanitation | Sanitation Office |
+| CC-003 | Illegal dumping of old furniture behind the community hall. | Zone C | Phone | 2026-01-03 | Waste and sanitation | Sanitation Office |
+| CC-004 | Trash bags are scattered along Riverside Walk after collection. | Zone D | Walk-in | 2026-01-04 | Waste and sanitation | Sanitation Office |
+| CC-005 | Rotting food waste has been left near the bus stop. | Zone E | Email | 2026-01-05 | Waste and sanitation | Sanitation Office |
+| CC-006 | Collection truck skipped the homes at the end of Pine Lane. | Zone F | Web form | 2026-01-06 | Waste and sanitation | Sanitation Office |
+| CC-007 | Broken communal bin leaves litter across the playground. | Zone G | Mobile app | 2026-01-07 | Waste and sanitation | Sanitation Office |
+| CC-008 | Residents are burning mixed garbage beside the school. | Zone H | Phone | 2026-01-08 | Waste and sanitation | Sanitation Office |
+| CC-009 | Plastic waste is piling up in the vacant lot. | Zone I | Walk-in | 2026-01-09 | Waste and sanitation | Sanitation Office |
+| CC-010 | Market vendors leave waste on the sidewalk after closing. | Zone J | Email | 2026-01-10 | Waste and sanitation | Sanitation Office |
+| CC-011 | A dead animal has been left beside the footbridge. | Zone A | Web form | 2026-01-11 | Waste and sanitation | Sanitation Office |
+| CC-012 | Recycling bins at the plaza have not been emptied. | Zone B | Mobile app | 2026-01-12 | Waste and sanitation | Sanitation Office |
+| CC-013 | Construction debris was dumped on the public path. | Zone C | Phone | 2026-01-13 | Waste and sanitation | Sanitation Office |
+| CC-014 | Overflowing trash at the clinic entrance smells strongly. | Zone D | Walk-in | 2026-01-14 | Waste and sanitation | Sanitation Office |
+| CC-015 | Loose garbage is blocking the alley beside Elm Court. | Zone E | Email | 2026-01-15 | Waste and sanitation | Sanitation Office |
+| CC-016 | The scheduled waste pickup did not arrive this week. | Zone F | Web form | 2026-01-16 | Waste and sanitation | Sanitation Office |
+| CC-017 | Food wrappers and bottles cover the park seating area. | Zone G | Mobile app | 2026-01-17 | Waste and sanitation | Sanitation Office |
+| CC-018 | An abandoned pile of tires is collecting rainwater. | Zone H | Phone | 2026-01-18 | Waste and sanitation | Sanitation Office |
+| CC-019 | A damaged dumpster leaks waste onto the road. | Zone I | Walk-in | 2026-01-19 | Waste and sanitation | Sanitation Office |
+| CC-020 | Street sweeping has not cleaned the market frontage. | Zone J | Email | 2026-01-20 | Waste and sanitation | Sanitation Office |
+| CC-021 | A deep pothole on Oak Avenue damaged a bicycle wheel. | Zone A | Mobile app | 2026-01-21 | Road and sidewalk repair | Public Works Office |
+| CC-022 | The sidewalk outside the library has cracked and lifted. | Zone B | Phone | 2026-01-22 | Road and sidewalk repair | Public Works Office |
+| CC-023 | Loose paving stones make the plaza path unsafe. | Zone C | Walk-in | 2026-01-23 | Road and sidewalk repair | Public Works Office |
+| CC-024 | A road shoulder has collapsed beside Hill Road. | Zone D | Email | 2026-01-24 | Road and sidewalk repair | Public Works Office |
+| CC-025 | Several potholes are forming near the school gate. | Zone E | Web form | 2026-01-25 | Road and sidewalk repair | Public Works Office |
+| CC-026 | A broken curb prevents wheelchair access at the clinic. | Zone F | Mobile app | 2026-01-26 | Road and sidewalk repair | Public Works Office |
+| CC-027 | The pedestrian crossing surface is badly worn and uneven. | Zone G | Phone | 2026-01-27 | Road and sidewalk repair | Public Works Office |
+| CC-028 | A sinkhole is opening in the pavement on Cedar Street. | Zone H | Walk-in | 2026-01-28 | Road and sidewalk repair | Public Works Office |
+| CC-029 | Road resurfacing left a raised edge at the junction. | Zone I | Email | 2026-02-01 | Road and sidewalk repair | Public Works Office |
+| CC-030 | The footpath to the market has missing concrete slabs. | Zone J | Web form | 2026-02-02 | Road and sidewalk repair | Public Works Office |
+| CC-031 | A damaged speed bump is scraping vehicle undersides. | Zone A | Mobile app | 2026-02-03 | Road and sidewalk repair | Public Works Office |
+| CC-032 | Gravel is spilling from a deteriorating road section. | Zone B | Phone | 2026-02-04 | Road and sidewalk repair | Public Works Office |
+| CC-033 | The bridge approach has a wide crack across one lane. | Zone C | Walk-in | 2026-02-05 | Road and sidewalk repair | Public Works Office |
+| CC-034 | A collapsed sidewalk slab creates a trip hazard. | Zone D | Email | 2026-02-06 | Road and sidewalk repair | Public Works Office |
+| CC-035 | The road near the bus terminal has deep ruts. | Zone E | Web form | 2026-02-07 | Road and sidewalk repair | Public Works Office |
+| CC-036 | The curb ramp at the park entrance is crumbling. | Zone F | Mobile app | 2026-02-08 | Road and sidewalk repair | Public Works Office |
+| CC-037 | A loose metal cover protrudes from the sidewalk. | Zone G | Phone | 2026-02-09 | Road and sidewalk repair | Public Works Office |
+| CC-038 | Repeated flooding has broken the asphalt on Lake Road. | Zone H | Walk-in | 2026-02-10 | Road and sidewalk repair | Public Works Office |
+| CC-039 | The alley pavement has sharp holes near the residences. | Zone I | Email | 2026-02-11 | Road and sidewalk repair | Public Works Office |
+| CC-040 | A fallen branch exposed an already damaged sidewalk edge. | Zone J | Web form | 2026-02-12 | Road and sidewalk repair | Public Works Office |
+| CC-041 | The drain on River Street is blocked and water is rising. | Zone A | Phone | 2026-02-13 | Drainage and flooding | Drainage Services |
+| CC-042 | Rainwater pools outside the school after every storm. | Zone B | Walk-in | 2026-02-14 | Drainage and flooding | Drainage Services |
+| CC-043 | A canal beside the market is clogged with silt. | Zone C | Email | 2026-02-15 | Drainage and flooding | Drainage Services |
+| CC-044 | The storm grate near the clinic is covered with leaves. | Zone D | Web form | 2026-02-16 | Drainage and flooding | Drainage Services |
+| CC-045 | Floodwater entered the alley after a short heavy shower. | Zone E | Mobile app | 2026-02-17 | Drainage and flooding | Drainage Services |
+| CC-046 | The roadside ditch is full of mud and cannot drain. | Zone F | Phone | 2026-02-18 | Drainage and flooding | Drainage Services |
+| CC-047 | A drainage cover is missing beside the playground. | Zone G | Walk-in | 2026-02-19 | Drainage and flooding | Drainage Services |
+| CC-048 | Water backs up from the culvert under Bridge Road. | Zone H | Email | 2026-02-20 | Drainage and flooding | Drainage Services |
+| CC-049 | The retention pond is overflowing toward nearby houses. | Zone I | Web form | 2026-02-21 | Drainage and flooding | Drainage Services |
+| CC-050 | A blocked gutter sends rainwater across the intersection. | Zone J | Mobile app | 2026-02-22 | Drainage and flooding | Drainage Services |
+| CC-051 | Standing floodwater remains around the bus stop for days. | Zone A | Phone | 2026-02-23 | Drainage and flooding | Drainage Services |
+| CC-052 | The canal wall has debris restricting water flow. | Zone B | Walk-in | 2026-02-24 | Drainage and flooding | Drainage Services |
+| CC-053 | Rainwater is entering homes because the street drain is clogged. | Zone C | Email | 2026-02-25 | Drainage and flooding | Drainage Services |
+| CC-054 | The stormwater pipe appears blocked near Elm Court. | Zone D | Web form | 2026-02-26 | Drainage and flooding | Drainage Services |
+| CC-055 | A low section of road floods whenever it rains. | Zone E | Mobile app | 2026-02-27 | Drainage and flooding | Drainage Services |
+| CC-056 | The ditch behind the community hall needs clearing. | Zone F | Phone | 2026-02-28 | Drainage and flooding | Drainage Services |
+| CC-057 | A drainage inlet is packed with plastic and leaves. | Zone G | Walk-in | 2026-03-01 | Drainage and flooding | Drainage Services |
+| CC-058 | Runoff from Hill Road is washing into front yards. | Zone H | Email | 2026-03-02 | Drainage and flooding | Drainage Services |
+| CC-059 | The culvert outlet is buried under sediment. | Zone I | Web form | 2026-03-03 | Drainage and flooding | Drainage Services |
+| CC-060 | Water collects at the footbridge despite clear weather. | Zone J | Mobile app | 2026-03-04 | Drainage and flooding | Drainage Services |
+| CC-061 | No tap water has reached homes on Pine Lane since morning. | Zone A | Walk-in | 2026-03-05 | Water supply and leaks | Water Utility |
+| CC-062 | A pipe leak is spraying water beside the market. | Zone B | Email | 2026-03-06 | Water supply and leaks | Water Utility |
+| CC-063 | The public tap at the park produces cloudy water. | Zone C | Web form | 2026-03-07 | Water supply and leaks | Water Utility |
+| CC-064 | Water pressure is very low in the upper floors of Elm Court. | Zone D | Mobile app | 2026-03-08 | Water supply and leaks | Water Utility |
+| CC-065 | A broken water main is flooding Oak Avenue. | Zone E | Phone | 2026-03-09 | Water supply and leaks | Water Utility |
+| CC-066 | Residents report an unusual smell from their tap water. | Zone F | Walk-in | 2026-03-10 | Water supply and leaks | Water Utility |
+| CC-067 | The communal faucet near the hall will not shut off. | Zone G | Email | 2026-03-11 | Water supply and leaks | Water Utility |
+| CC-068 | Water service stops each evening on Cedar Street. | Zone H | Web form | 2026-03-12 | Water supply and leaks | Water Utility |
+| CC-069 | A leaking supply pipe has soaked the sidewalk. | Zone I | Mobile app | 2026-03-13 | Water supply and leaks | Water Utility |
+| CC-070 | The drinking fountain at the plaza has no water. | Zone J | Phone | 2026-03-14 | Water supply and leaks | Water Utility |
+| CC-071 | Brown water comes from household taps after repairs. | Zone A | Walk-in | 2026-03-15 | Water supply and leaks | Water Utility |
+| CC-072 | A water meter connection is dripping continuously. | Zone B | Email | 2026-03-16 | Water supply and leaks | Water Utility |
+| CC-073 | Several homes near the clinic have intermittent supply. | Zone C | Web form | 2026-03-17 | Water supply and leaks | Water Utility |
+| CC-074 | The hydrant beside the school appears to be leaking. | Zone D | Mobile app | 2026-03-18 | Water supply and leaks | Water Utility |
+| CC-075 | Water pressure dropped suddenly after nearby excavation. | Zone E | Phone | 2026-03-19 | Water supply and leaks | Water Utility |
+| CC-076 | A damaged valve is releasing water into the alley. | Zone F | Walk-in | 2026-03-20 | Water supply and leaks | Water Utility |
+| CC-077 | The shared pump has stopped supplying the block. | Zone G | Email | 2026-03-21 | Water supply and leaks | Water Utility |
+| CC-078 | A pipe joint outside the library leaks into the street. | Zone H | Web form | 2026-03-22 | Water supply and leaks | Water Utility |
+| CC-079 | Tap water contains visible particles in Riverside homes. | Zone I | Mobile app | 2026-03-23 | Water supply and leaks | Water Utility |
+| CC-080 | The public water point has been out of service for two days. | Zone J | Phone | 2026-03-24 | Water supply and leaks | Water Utility |
+| CC-081 | The streetlamp at Maple Street corner does not turn on. | Zone A | Email | 2026-03-25 | Street lighting | Electrical Maintenance |
+| CC-082 | Two lights along Riverside Walk flicker all night. | Zone B | Web form | 2026-03-26 | Street lighting | Electrical Maintenance |
+| CC-083 | The pedestrian crossing by the school is unlit. | Zone C | Mobile app | 2026-03-27 | Street lighting | Electrical Maintenance |
+| CC-084 | A damaged lamp pole near the market leans toward the road. | Zone D | Phone | 2026-03-28 | Street lighting | Electrical Maintenance |
+| CC-085 | Streetlights in the park have been dark for a week. | Zone E | Walk-in | 2026-04-01 | Street lighting | Electrical Maintenance |
+| CC-086 | The light outside the clinic switches off repeatedly. | Zone F | Email | 2026-04-02 | Street lighting | Electrical Maintenance |
+| CC-087 | An exposed wire hangs from the lamp near the plaza. | Zone G | Web form | 2026-04-03 | Street lighting | Electrical Maintenance |
+| CC-088 | The bus stop light is broken, leaving the shelter dark. | Zone H | Mobile app | 2026-04-04 | Street lighting | Electrical Maintenance |
+| CC-089 | Several lamps on Oak Avenue remain on during daylight. | Zone I | Phone | 2026-04-05 | Street lighting | Electrical Maintenance |
+| CC-090 | The alley behind Elm Court has no working streetlight. | Zone J | Walk-in | 2026-04-06 | Street lighting | Electrical Maintenance |
+| CC-091 | The footbridge lamp flashes and then goes dark. | Zone A | Email | 2026-04-07 | Street lighting | Electrical Maintenance |
+| CC-092 | A lamp housing fell from the pole on Hill Road. | Zone B | Web form | 2026-04-08 | Street lighting | Electrical Maintenance |
+| CC-093 | The crossing light near the library is too dim. | Zone C | Mobile app | 2026-04-09 | Street lighting | Electrical Maintenance |
+| CC-094 | The streetlight timer appears faulty on Cedar Street. | Zone D | Phone | 2026-04-10 | Street lighting | Electrical Maintenance |
+| CC-095 | A lighting pole base is loose beside the playground. | Zone E | Walk-in | 2026-04-11 | Street lighting | Electrical Maintenance |
+| CC-096 | One side of Bridge Road is completely unlit at night. | Zone F | Email | 2026-04-12 | Street lighting | Electrical Maintenance |
+| CC-097 | The public path lamp makes a buzzing sound and flickers. | Zone G | Web form | 2026-04-13 | Street lighting | Electrical Maintenance |
+| CC-098 | A fallen tree branch damaged the streetlight cable. | Zone H | Mobile app | 2026-04-14 | Street lighting | Electrical Maintenance |
+| CC-099 | The market entrance lights fail after rain. | Zone I | Phone | 2026-04-15 | Street lighting | Electrical Maintenance |
+| CC-100 | A broken streetlamp leaves the community hall entrance dark. | Zone J | Walk-in | 2026-04-16 | Street lighting | Electrical Maintenance |
+
+## Data dictionary
+
+| Field | Role | Description |
+|---|---|---|
+| `complaint_id` | Reference only | Unique identifier; preserve it but exclude it from model features. |
+| `complaint_text` | Input | Free-text complaint description. |
+| `location` | Input | Reported community area or street. |
+| `submission_channel` | Input | How the complaint was submitted. |
+| `submission_date` | Input | Date received in ISO format. |
+| `complaint_category` | Target | Human-assigned class used for supervised learning and evaluation. |
+| `routing_suggestion` | Output mapping | Office suggested for the assigned category. |
+
+## Notes
+
+These are synthetic examples, not real resident reports. Review uncertain or urgent complaints manually before routing. Avoid using location or submission channel as a proxy for who receives service; complaint text should carry the main categorization signal.
+

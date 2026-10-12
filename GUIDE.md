@@ -1,5 +1,13 @@
 # GROUP 23 — Community Complaint Categorization: Step-by-Step Guide
 
+> **FeatureChange update:** The training script and Streamlit app now use
+> `test_records.csv`. Its inputs are `complaint_id`,
+> `complaint_text`, `urgency_level`, `location`, `submission_channel`, and `date`.
+> The app outputs `complaint_category`, `routing_suggestion`, and
+> `estimated_resolution_date`. Run `python train_model.py` before
+> `streamlit run app.py`. The older examples and metrics below describe
+> the former schema and are retained as historical assignment notes.
+
 Follow the parts in order. Each part tells you **what to do**, **what to hand in**, and **what to write** in your report.
 
 **Your files**

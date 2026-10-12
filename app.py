@@ -1,118 +1,168 @@
-"""
-Group 23 - Community Complaint Categorization
-Part 5: Streamlit interface.
+"""Streamlit interface for the revised community complaint schema."""
 
-Run:  streamlit run app.py
-Needs: complaint_pipeline.joblib (created by train_model.py)
-"""
-
+from datetime import date, datetime
+from pathlib import Path
 import re
-from datetime import date
 
 import joblib
 import pandas as pd
 import streamlit as st
 
-CONFIDENCE_THRESHOLD = 0.30   # below this -> "uncertain, review manually"
-MIN_WORDS = 3
-CHANNELS = ["Web form", "Mobile app", "Phone", "Walk-in", "Email"]
-LOCATIONS = [f"Zone {c}" for c in "ABCDEFGHIJ"]
+from complaint_logic import (
+    CHANNELS, LOCATIONS, URGENCY_LEVELS, clean_text, resolution_date,
+    route_for, validate_id, validate_record,
+)
 
-
-def clean_text(text: str) -> str:
-    text = str(text).lower()
-    text = re.sub(r"[^a-z\s]", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
+MODEL_PATH = Path(__file__).resolve().parent / "complaint_pipeline.joblib"
+CONFIDENCE_THRESHOLD = 0.30
+MARGIN_THRESHOLD = 0.10
+INPUT_COLUMNS = ("complaint_id", "complaint_text", "urgency_level", "location",
+                 "submission_channel", "date")
 
 
 @st.cache_resource
 def load_model():
-    bundle = joblib.load("complaint_pipeline.joblib")
-    return bundle["pipeline"], bundle["routing"]
+    bundle = joblib.load(MODEL_PATH)
+    if bundle.get("schema_version") != 2:
+        raise ValueError("The saved model uses the old schema. Run `python train_model.py`.")
+    return bundle["pipeline"]
 
 
-def validate(text, location, channel, submitted):
-    """Return a list of problems (empty list = input is OK)."""
+def predict(pipeline, records: pd.DataFrame) -> tuple[pd.DataFrame, object]:
+    features = pd.DataFrame({
+        "clean_text": records["complaint_text"].map(clean_text),
+        "urgency_level": records["urgency_level"],
+    })
+    probabilities = pipeline.predict_proba(features)
+    order = probabilities.argsort(axis=1)[:, ::-1]
+    top = order[:, 0]
+    runner_up = order[:, 1]
+    result = records.copy()
+    result["complaint_category"] = pipeline.classes_[top]
+    result["confidence"] = probabilities.max(axis=1).round(3)
+    result["needs_review"] = ((probabilities.max(axis=1) < CONFIDENCE_THRESHOLD) |
+                              (probabilities[range(len(records)), top] -
+                               probabilities[range(len(records)), runner_up] < MARGIN_THRESHOLD))
+    result["routing_suggestion"] = [
+        "Manual review" if review else route_for(category, location, urgency)
+        for category, location, urgency, review in zip(
+            result["complaint_category"], result["location"],
+            result["urgency_level"], result["needs_review"])
+    ]
+    result["estimated_resolution_date"] = [
+        resolution_date(submitted, urgency).isoformat()
+        for submitted, urgency in zip(result["date"], result["urgency_level"])
+    ]
+    return result, probabilities
+
+
+def parse_date(value) -> date | None:
+    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value.strip()):
+        return None
+    try:
+        return datetime.strptime(value.strip(), "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
+def process_batch(pipeline, uploaded: pd.DataFrame) -> pd.DataFrame:
+    missing = set(INPUT_COLUMNS) - set(uploaded.columns)
+    if missing:
+        raise ValueError(f"Missing columns: {', '.join(sorted(missing))}")
+    if uploaded.empty:
+        raise ValueError("The CSV has no records.")
+    records = uploaded.loc[:, INPUT_COLUMNS].copy().fillna("")
+    records["date"] = records["date"].map(parse_date)
     errors = []
-    if not text or not text.strip():
-        errors.append("Complaint text is empty.")
-    elif len(clean_text(text).split()) < MIN_WORDS:
-        errors.append(f"Complaint text is too short (at least {MIN_WORDS} words).")
-    if not location or not location.strip():
-        errors.append("Location is missing.")
-    if channel not in CHANNELS:
-        errors.append("Please choose a valid submission channel.")
-    if submitted is None:
-        errors.append("Date is missing.")
-    elif submitted > date.today():
-        errors.append("Date cannot be in the future.")
-    return errors
+    for row_number, row in enumerate(records.itertuples(index=False), start=2):
+        record_id, text, urgency, location, channel, submitted = row
+        issues = validate_record(text, urgency, location, channel, submitted)
+        id_issue = validate_id(record_id)
+        if id_issue:
+            issues.append(id_issue)
+        if issues:
+            errors.append(f"CSV row {row_number}: {' '.join(issues)}")
+    if errors:
+        raise ValueError("\n".join(errors[:10]) +
+                         (f"\n...and {len(errors) - 10} more invalid rows." if len(errors) > 10 else ""))
+    if records["complaint_id"].duplicated().any():
+        raise ValueError("Complaint IDs must be unique within the CSV.")
+    result, _ = predict(pipeline, records)
+    result["date"] = result["date"].map(date.isoformat)
+    return result
 
 
 st.set_page_config(page_title="Complaint Categorizer", page_icon="📋")
 st.title("📋 Community Complaint Categorization")
-st.write("Enter a complaint and the system will suggest a category and the office to route it to.")
+st.write("Enter a complaint to estimate its category, office queue, and resolution date.")
 
 try:
-    pipeline, routing = load_model()
-except FileNotFoundError:
-    st.error("Model file not found. Run `python train_model.py` first.")
+    pipeline = load_model()
+except (FileNotFoundError, ValueError) as exc:
+    st.error(f"{exc} Run `python train_model.py` to create the revised model.")
     st.stop()
 
-tab_single, tab_batch = st.tabs(["Single complaint", "Upload CSV"])
+tab_single, tab_batch, tab_analytics = st.tabs(
+    ["Single complaint", "Upload CSV", "Channel analytics"]
+)
 
-# ---------------- Single complaint ----------------
 with tab_single:
     with st.form("complaint_form"):
         text = st.text_area("Complaint text", height=120,
                             placeholder="e.g. The streetlamp near the school does not turn on.")
+        urgency = st.selectbox("Urgency level", URGENCY_LEVELS)
         location = st.selectbox("Location", LOCATIONS)
         channel = st.selectbox("Submission channel", CHANNELS)
         submitted = st.date_input("Submission date", value=date.today())
         go = st.form_submit_button("Categorize")
 
     if go:
-        problems = validate(text, location, channel, submitted)
+        problems = validate_record(text, urgency, location, channel, submitted)
         if problems:
-            for p in problems:
-                st.error(p)
+            for problem in problems:
+                st.error(problem)
         else:
-            feat = clean_text(text)   # model uses complaint text only
-            proba = pipeline.predict_proba([feat])[0]
-            order = proba.argsort()[::-1]
-            top, conf = pipeline.classes_[order[0]], proba[order[0]]
-            second, conf2 = pipeline.classes_[order[1]], proba[order[1]]
-
-            if conf < CONFIDENCE_THRESHOLD or (conf - conf2) < 0.10:
-                st.warning(
-                    f"⚠️ Uncertain result. Best guess: **{top}** ({conf:.0%}), "
-                    f"next: {second} ({conf2:.0%}). Please review manually before routing."
-                )
+            record = pd.DataFrame([{
+                "complaint_text": text,
+                "urgency_level": urgency,
+                "location": location,
+                "submission_channel": channel,
+                "date": submitted,
+            }])
+            result, probabilities = predict(pipeline, record)
+            row = result.iloc[0]
+            if row["needs_review"]:
+                st.warning(f"Uncertain category: **{row['complaint_category']}** "
+                           f"({row['confidence']:.0%}). Please review before routing.")
             else:
-                st.success(f"**Category:** {top}  \n**Route to:** {routing[top]}  \n"
-                           f"**Confidence:** {conf:.0%}")
+                st.success(f"**Category:** {row['complaint_category']}  \n"
+                           f"**Route to:** {row['routing_suggestion']}  \n"
+                           f"**Confidence:** {row['confidence']:.0%}")
+            st.write(f"**Estimated resolution date:** {row['estimated_resolution_date']}")
+            st.caption("Category uses complaint text and urgency. Location selects the branch; "
+                       "urgency selects the queue and resolution interval. Channel is recorded "
+                       "for intake analytics.")
+            st.bar_chart(pd.Series(probabilities[0], index=pipeline.classes_, name="Probability"))
 
-            st.write("Explanation: the category comes mainly from key words in the complaint text "
-                     "(for example 'streetlight', 'drain', 'pothole'). Location, channel and date are recorded but not used by the model.")
-            st.bar_chart(pd.Series(proba, index=pipeline.classes_, name="Probability"))
-
-# ---------------- Batch upload ----------------
 with tab_batch:
-    st.write("Upload a CSV with columns: `complaint_text`, `location`, `submission_channel`, `submission_date`.")
+    st.write("Upload a CSV with `complaint_id`, `complaint_text`, `urgency_level`, "
+             "`location`, `submission_channel`, and `date` (YYYY-MM-DD).")
     file = st.file_uploader("CSV file", type="csv")
     if file is not None:
-        df = pd.read_csv(file)
-        needed = {"complaint_text", "location", "submission_channel"}
-        if not needed.issubset(df.columns):
-            st.error(f"Missing columns: {', '.join(needed - set(df.columns))}")
+        try:
+            uploaded = pd.read_csv(file, dtype=str)
+            results = process_batch(pipeline, uploaded)
+        except (pd.errors.ParserError, UnicodeDecodeError, ValueError) as exc:
+            st.error(str(exc))
         else:
-            df = df.fillna("")
-            feats = df["complaint_text"].apply(clean_text)
-            proba = pipeline.predict_proba(feats)
-            df["predicted_category"] = pipeline.classes_[proba.argmax(axis=1)]
-            df["confidence"] = proba.max(axis=1).round(2)
-            df["routing_suggestion"] = df["predicted_category"].map(routing)
-            df.loc[df["complaint_text"].str.strip() == "", ["predicted_category", "routing_suggestion"]] = "Needs review"
-            df.loc[df["confidence"] < CONFIDENCE_THRESHOLD, "routing_suggestion"] = "Manual review"
-            st.dataframe(df)
-            st.download_button("Download results", df.to_csv(index=False), "predictions.csv")
+            st.dataframe(results)
+            st.download_button("Download results", results.to_csv(index=False),
+                               "predictions.csv", mime="text/csv")
+            st.session_state["channel_counts"] = results["submission_channel"].value_counts()
+
+with tab_analytics:
+    st.write("Submission channels in the latest valid CSV upload.")
+    if "channel_counts" in st.session_state:
+        st.bar_chart(st.session_state["channel_counts"])
+    else:
+        st.info("Upload a CSV to see channel utilization.")

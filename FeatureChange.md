@@ -23,7 +23,7 @@ This schema comprises one reference identifier, 5 input features, and 3 target o
 
 | Column | Possible values or format |
 | :--- | :--- |
-| `complaint_id` | Unique identifier in the format `CC-###`; the 100 records in `test_records2.csv` use `CC-101` through `CC-200`. |
+| `complaint_id` | Unique identifier in the format `CC-###`; the 100 records in `test_records.csv` use `CC-101` through `CC-200`. |
 | `Complaint text` | Nonempty, free-form description of a community complaint. |
 | `urgency level` | `High`, `Medium`, `Low`. |
 | `location` | `A`, `B`, `C`, `D`, `E`, `V`, `W`, `X`, `Y`, `Z`. |

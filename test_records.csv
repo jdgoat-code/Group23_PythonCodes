@@ -1,4 +1,4 @@
-"complaint_id","complaint_text","location","submission_channel","submission_date","complaint_category","routing_suggestion"
+"complaint_id","complaint_text","location","submission_channel","date","complaint_category","routing_suggestion"
 "CC-001","Household garbage has not been collected for three days on Maple Street.","Zone A","Web form","2026-01-01","Waste and sanitation","Sanitation Office"
 "CC-002","Overflowing public bin beside the market is attracting flies.","Zone B","Mobile app","2026-01-02","Waste and sanitation","Sanitation Office"
 "CC-003","Illegal dumping of old furniture behind the community hall.","Zone C","Phone","2026-01-03","Waste and sanitation","Sanitation Office"

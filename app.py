@@ -135,10 +135,11 @@ with tab_single:
                 st.warning(f"Uncertain category: **{row['complaint_category']}** "
                            f"({row['confidence']:.0%}). Please review before routing.")
             else:
-                st.success(f"**Category:** {row['complaint_category']}  \n"
-                           f"**Route to:** {row['routing_suggestion']}  \n"
-                           f"**Confidence:** {row['confidence']:.0%}")
-            st.write(f"**Estimated resolution date:** {row['estimated_resolution_date']}")
+                st.success("Prediction ready.")
+            st.markdown(f"**Complaint category:** {row['complaint_category']}  \n"
+                        f"**Routing suggestion:** {row['routing_suggestion']}  \n"
+                        f"**Estimated resolution date:** {row['estimated_resolution_date']}  \n"
+                        f"**Confidence:** {row['confidence']:.0%}")
             st.caption("Category uses complaint text and urgency. Location selects the branch; "
                        "urgency selects the queue and resolution interval. Channel is recorded "
                        "for intake analytics.")
